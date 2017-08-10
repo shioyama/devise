@@ -158,7 +158,7 @@ module Devise
           recoverable
         end
 
-        Devise::Models.config(self, :reset_password_keys, :reset_password_within, :sign_in_after_reset_password)
+        include Devise::Models::Config.new(:reset_password_keys, :reset_password_within, :sign_in_after_reset_password)
       end
     end
   end

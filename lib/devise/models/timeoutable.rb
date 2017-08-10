@@ -36,7 +36,7 @@ module Devise
       private
 
       module ClassMethods
-        Devise::Models.config(self, :timeout_in)
+        include Devise::Models::Config.new(:timeout_in)
       end
     end
   end

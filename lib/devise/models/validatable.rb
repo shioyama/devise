@@ -64,7 +64,7 @@ module Devise
       end
 
       module ClassMethods
-        Devise::Models.config(self, :email_regexp, :password_length)
+        include Devise::Models::Config.new(:email_regexp, :password_length)
       end
     end
   end

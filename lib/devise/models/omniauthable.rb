@@ -20,7 +20,7 @@ module Devise
       end
 
       module ClassMethods
-        Devise::Models.config(self, :omniauth_providers)
+        include Devise::Models::Config.new(:omniauth_providers)
       end
     end
   end

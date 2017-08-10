@@ -186,7 +186,7 @@ module Devise
       end
 
       module ClassMethods
-        Devise::Models.config(self, :pepper, :stretches, :send_email_changed_notification, :send_password_change_notification)
+        include Devise::Models::Config.new(:pepper, :stretches, :send_email_changed_notification, :send_password_change_notification)
 
         # We assume this method already gets the sanitized values from the
         # DatabaseAuthenticatable strategy. If you are using this method on

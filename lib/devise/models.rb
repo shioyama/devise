@@ -12,7 +12,7 @@ module Devise
 
     # Creates configuration values for Devise and for the given module.
     #
-    #   Devise::Models.config(Devise::Models::DatabaseAuthenticatable, :stretches)
+    #   include Devise::Models::Config.new(:stretches)
     #
     # The line above creates:
     #
@@ -26,26 +26,31 @@ module Devise
     # To add the class methods you need to have a module ClassMethods defined
     # inside the given class.
     #
-    def self.config(mod, *accessors) #:nodoc:
-      class << mod; attr_accessor :available_configs; end
-      mod.available_configs = accessors
-
-      accessors.each do |accessor|
-        mod.class_eval <<-METHOD, __FILE__, __LINE__ + 1
-          def #{accessor}
-            if defined?(@#{accessor})
-              @#{accessor}
-            elsif superclass.respond_to?(:#{accessor})
-              superclass.#{accessor}
-            else
-              Devise.#{accessor}
+    class Config < Module
+      def initialize(*accessors) #:nodoc:
+        @accessors = accessors
+        accessors.each do |accessor|
+          class_eval <<-METHOD, __FILE__, __LINE__ + 1
+            def #{accessor}
+              if defined?(@#{accessor})
+                @#{accessor}
+              elsif superclass.respond_to?(:#{accessor})
+                superclass.#{accessor}
+              else
+                Devise.#{accessor}
+              end
             end
-          end
 
-          def #{accessor}=(value)
-            @#{accessor} = value
-          end
-        METHOD
+            def #{accessor}=(value)
+              @#{accessor} = value
+            end
+          METHOD
+        end
+      end
+
+      def included(mod)
+        class << mod; attr_accessor :available_configs; end
+        mod.available_configs = @accessors
       end
     end
 

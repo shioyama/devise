@@ -217,7 +217,7 @@ module Devise
       end
 
       module ClassMethods
-        Devise::Models.config(self, :authentication_keys, :request_keys, :strip_whitespace_keys,
+        include Devise::Models::Config.new(:authentication_keys, :request_keys, :strip_whitespace_keys,
           :case_insensitive_keys, :http_authenticatable, :params_authenticatable, :skip_session_storage,
           :http_authentication_key)
 

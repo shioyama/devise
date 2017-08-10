@@ -193,7 +193,7 @@ module Devise
           self.lock_strategy == strategy
         end
 
-        Devise::Models.config(self, :maximum_attempts, :lock_strategy, :unlock_strategy, :unlock_in, :unlock_keys, :last_attempt_warning)
+        include Devise::Models::Config.new(:maximum_attempts, :lock_strategy, :unlock_strategy, :unlock_in, :unlock_keys, :last_attempt_warning)
       end
     end
   end
